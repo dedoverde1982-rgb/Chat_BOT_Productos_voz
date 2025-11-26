@@ -99,13 +99,16 @@ def extraer_texto_busqueda(pregunta: str) -> str:
         "tengo", "tienes", "tienen", "tenemos",
         "quiero", "quisiera", "busco", "buscando",
         "estoy", "estamos", "necesito", "necesitamos",
+        "comparame", "compárame",
+        "encuentra", "encuentres", "muestrame", "muéstrame",
         "compara", "comparar", "comparacion", "comparación",
-        "tiene",
+        "tiene", "tienen",
         # conectores / artículos / pronombres
         "en", "la", "el", "los", "las",
         "un", "una", "unos", "unas",
         "de", "del", "al", "para", "por", "con", "sobre",
         "que", "su", "sus", "o", "y",
+        "esta", "este", "estos", "estas",
         # palabras muy genéricas en tus preguntas
         "galeria", "galería", "busquedad", "busqueda"
     }
@@ -341,3 +344,4 @@ with st.expander("💬 Consulta opcional por texto (para pruebas)"):
     )
     if st.button("Consultar por texto"):
         procesar_consulta(pregunta_texto)
+
