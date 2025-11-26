@@ -95,21 +95,29 @@ def extraer_texto_busqueda(pregunta: str) -> str:
     palabras = [p.strip(".,;:¡!¿?") for p in pregunta.split()]
 
     stopwords = {
+        # verbos y auxiliares
         "tengo", "tienes", "tienen", "tenemos",
         "quiero", "quisiera", "busco", "buscando",
-        "estoy", "estamos", "en", "la", "el", "los", "las",
+        "estoy", "estamos", "necesito", "necesitamos",
+        "compara", "comparar", "comparacion", "comparación",
+        "tiene",
+        # conectores / artículos / pronombres
+        "en", "la", "el", "los", "las",
         "un", "una", "unos", "unas",
         "de", "del", "al", "para", "por", "con", "sobre",
-        "necesito", "necesitamos",
-        "busquedad", "busqueda"
+        "que", "su", "sus", "o", "y",
+        # palabras muy genéricas en tus preguntas
+        "galeria", "galería", "busquedad", "busqueda"
     }
 
+    # filtramos todo lo que sea stopword
     palabras_clave = [p for p in palabras if p and p not in stopwords]
 
+    # si después de filtrar no queda nada, devolvemos la frase completa
     if not palabras_clave:
         return pregunta
 
-    # Unir número + unidad (128 gb -> 128gb)
+    # unir número + unidad (128 gb -> 128gb)
     unidades = {"gb", "tb", "mb", "hz", "mhz", "ghz"}
     if len(palabras_clave) >= 2:
         penultima = palabras_clave[-2]
@@ -117,9 +125,10 @@ def extraer_texto_busqueda(pregunta: str) -> str:
         if penultima.isdigit() and ultima in unidades:
             return penultima + ultima
 
+    # nos quedamos con la última palabra clave (ya sin verbos / galería / etc.)
     palabra = palabras_clave[-1]
 
-    # Lematización muy simple de plurales
+    # lematización muy simple de plurales
     if len(palabra) > 4 and palabra.endswith("es"):
         palabra = palabra[:-2]
     elif len(palabra) > 3 and palabra.endswith("s"):
